@@ -60,7 +60,13 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 		} \
 	} while(0)
 #else
-#define _VK(...) do { __VA_ARGS__; } while(0)
+#define _VK(...) \
+	do { \
+		VkResult _res = __VA_ARGS__; \
+		if(_res != VK_SUCCESS) { \
+			Com_WPrintf("error %d executing %s! %s:%d\n", _res, # __VA_ARGS__, __FILE__, __LINE__); \
+		} \
+	} while(0)
 #endif
 
 /* see main.c to override default file path. By default it will strip away

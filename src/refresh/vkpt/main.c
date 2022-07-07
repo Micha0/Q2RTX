@@ -527,16 +527,14 @@ qvkDestroyDebugUtilsMessengerEXT(
 	return VK_ERROR_EXTENSION_NOT_PRESENT;
 }
 
-static bool pick_surface_format_hdr(VkSurfaceFormatKHR* format, const VkSurfaceFormatKHR avail_surface_formats[], size_t num_avail_surface_formats)
+static bool pick_surface_format(VkSurfaceFormatKHR *format, const VkSurfaceFormatKHR avail_surface_formats[], size_t num_avail_surface_formats, VkSurfaceFormatKHR *acceptable_formats, size_t num_acceptable_formats)
 {
-	VkSurfaceFormatKHR acceptable_formats[] = {
-		{ VK_FORMAT_R16G16B16A16_SFLOAT, VK_COLOR_SPACE_EXTENDED_SRGB_LINEAR_EXT }
-	};
-
-	for(int i = 0; i < LENGTH(acceptable_formats); i++) {
-		for(int j = 0; j < num_avail_surface_formats; j++) {
-			if((acceptable_formats[i].format == avail_surface_formats[j].format)
-				&& (acceptable_formats[i].colorSpace == avail_surface_formats[j].colorSpace)){
+	for (size_t i = 0; i < num_acceptable_formats; i++)
+	{
+		for (size_t j = 0; j < num_avail_surface_formats; j++)
+		{
+			if ((acceptable_formats[i].format == avail_surface_formats[j].format) && (acceptable_formats[i].colorSpace == avail_surface_formats[j].colorSpace))
+			{
 				*format = avail_surface_formats[j];
 				return true;
 			}
@@ -545,21 +543,27 @@ static bool pick_surface_format_hdr(VkSurfaceFormatKHR* format, const VkSurfaceF
 	return false;
 }
 
-static bool pick_surface_format_sdr(VkSurfaceFormatKHR* format, const VkSurfaceFormatKHR avail_surface_formats[], size_t num_avail_surface_formats)
+static bool pick_surface_format_hdr(VkSurfaceFormatKHR* format, const VkSurfaceFormatKHR avail_surface_formats[], size_t num_avail_surface_formats)
 {
-	VkFormat acceptable_formats[] = {
-		VK_FORMAT_R8G8B8A8_SRGB, VK_FORMAT_B8G8R8A8_SRGB,
+	VkSurfaceFormatKHR acceptable_formats[] = {
+		{ VK_FORMAT_R16G16B16A16_SFLOAT, VK_COLOR_SPACE_EXTENDED_SRGB_LINEAR_EXT }
 	};
 
-	for(int i = 0; i < LENGTH(acceptable_formats); i++) {
-		for(int j = 0; j < num_avail_surface_formats; j++) {
-			if(acceptable_formats[i] == avail_surface_formats[j].format) {
-				*format = avail_surface_formats[j];
-				return true;
-			}
-		}
-	}
-	return false;
+	return pick_surface_format(format, avail_surface_formats, num_avail_surface_formats, acceptable_formats, LENGTH(acceptable_formats));
+}
+
+static bool pick_surface_format_sdr(VkSurfaceFormatKHR* format, const VkSurfaceFormatKHR avail_surface_formats[], size_t num_avail_surface_formats)
+{
+	VkSurfaceFormatKHR acceptable_formats[] = {
+		{ VK_FORMAT_R8G8B8A8_SRGB, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR },
+		{ VK_FORMAT_B8G8R8A8_SRGB, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR },
+		/* On Wayland (on Fedora 36/GNOME/NVIDIA driver 510.68.02/SDL 2.0.22) the
+		   _SRGB formats are not available, so fallback to _UNORM there */
+		{ VK_FORMAT_R8G8B8A8_UNORM, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR },
+		{ VK_FORMAT_B8G8R8A8_UNORM, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR },
+	};
+
+	return pick_surface_format(format, avail_surface_formats, num_avail_surface_formats, acceptable_formats, LENGTH(acceptable_formats));
 }
 
 VkResult
@@ -3755,7 +3759,9 @@ byte *
 IMG_ReadPixels_RTX(int *width, int *height, int *rowbytes)
 {
 	if (qvk.surf_format.format != VK_FORMAT_B8G8R8A8_SRGB &&
-		qvk.surf_format.format != VK_FORMAT_R8G8B8A8_SRGB)
+		qvk.surf_format.format != VK_FORMAT_R8G8B8A8_SRGB &&
+		qvk.surf_format.format != VK_FORMAT_B8G8R8A8_UNORM &&
+		qvk.surf_format.format != VK_FORMAT_R8G8B8A8_UNORM)
 	{
 		Com_EPrintf("IMG_ReadPixels: unsupported swap chain format (%d)!\n", qvk.surf_format.format);
 		return NULL;
@@ -3843,7 +3849,8 @@ IMG_ReadPixels_RTX(int *width, int *height, int *rowbytes)
 		byte* src_row = (byte*)device_data + subresource_layout.rowPitch * row;
 		byte* dst_row = pixels + pitch * (qvk.extent_unscaled.height - row - 1);
 
-		if (qvk.surf_format.format == VK_FORMAT_B8G8R8A8_SRGB)
+		if ((qvk.surf_format.format == VK_FORMAT_B8G8R8A8_SRGB)
+			|| (qvk.surf_format.format == VK_FORMAT_B8G8R8A8_UNORM))
 		{
 			for (int col = 0; col < qvk.extent_unscaled.width; col++)
 			{

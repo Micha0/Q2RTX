@@ -1,6 +1,19 @@
 cmake_minimum_required (VERSION 3.9)
 cmake_policy(SET CMP0069 NEW)
 
+add_compile_definitions(
+    $<$<COMPILE_LANG_AND_ID:CXX,Clang>:LLVM_ENABLE_RUNTIMES=libunwind>
+#     $<$<COMPILE_LANG_AND_ID:CXX,Clang>:LIBCXX_USE_COMPILER_RT=YES>
+#     $<$<COMPILE_LANG_AND_ID:CXX,Clang>:LIBCXXABI_USE_COMPILER_RT=YES>
+#     $<$<COMPILE_LANG_AND_ID:CXX,Clang>:LIBUNWIND_USE_COMPILER_RT=YES>
+    )
+
+add_link_options(
+    $<$<LINK_LANG_AND_ID:CXX,Clang>:-stdlib=libc++>
+    $<$<LINK_LANG_AND_ID:CXX,Clang>:-std=c++11>
+    $<$<LINK_LANG_AND_ID:CXX,Clang>:-rtlib=compiler-rt>
+    )
+
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 project(quake2-RTX)

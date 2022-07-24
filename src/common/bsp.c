@@ -1405,6 +1405,9 @@ static bool BSP_LoadPatchedPVS(bsp_t *bsp)
 	if (filebuf == 0)
 		return false;
 
+    if (!bsp->vis)
+        return false;
+
 	size_t matrix_size = bsp->visrowsize * bsp->vis->numclusters;
 	if (filelen != matrix_size * 2)
 	{

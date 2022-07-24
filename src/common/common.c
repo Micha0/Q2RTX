@@ -22,6 +22,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 //
 
 #include "shared/shared.h"
+#include "shared/game.h"
 
 #include "common/bsp.h"
 #include "common/cmd.h"
@@ -49,6 +50,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "server/server.h"
 #include "system/system.h"
 #include "system/hunk.h"
+#include "refresh/refresh.h"
 
 #include <setjmp.h>
 
@@ -1175,3 +1177,16 @@ void Qcommon_Frame(void)
 #endif
 }
 
+void Com_DrawLines(float* points, size_t pointsSize, unsigned int* indices, size_t indicesSize, float* color)
+{
+#if USE_CLIENT
+    R_DrawLines(points, pointsSize, indices, indicesSize, color);
+#endif
+}
+
+void Com_DebugDraw()
+{
+    extern    game_export_t    *ge;
+
+    ge->DebugDraw();
+}

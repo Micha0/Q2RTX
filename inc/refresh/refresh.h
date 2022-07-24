@@ -340,6 +340,8 @@ extern void    (*R_AddDecal)(decal_t *d);
 extern bool    (*R_InterceptKey)(unsigned key, bool down);
 extern bool    (*R_IsHDR)();
 
+extern void(*R_DrawLines)(float* points, size_t pointsSize, unsigned int* indices, size_t indicesSize, float* color);
+
 #if REF_GL
 void R_RegisterFunctionsGL();
 #endif

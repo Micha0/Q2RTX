@@ -1,0 +1,23 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build maps",
+            "type": "shell",
+            "command": "python3",
+            "args": [
+                "${workspaceFolder}/scripts/build_maps.py",
+                "-m", "mapdev/first.map", "-o", "baseq2/maps"
+            ]
+        },
+        {
+            "label": "build client",
+            "type": "shell",
+            "command": "cmake --build ${workspaceFolder}/build --config Debug --target all -- ",
+            "group": "build",
+            "dependsOn": "build maps"
+        },
+    ]
+}

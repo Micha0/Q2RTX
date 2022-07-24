@@ -145,14 +145,14 @@ typedef struct {
     mtexinfo_t          *texinfo;
 } mbrushside_t;
 
-typedef struct {
+typedef struct mbrush_s {
     int                 contents;
     int                 numsides;
     mbrushside_t        *firstbrushside;
     int                 checkcount;        // to avoid repeated testings
 } mbrush_t;
 
-typedef struct {
+typedef struct mleaf_s {
     /* ======> */
     cplane_t            *plane;     // always NULL to differentiate from nodes
 #if USE_REF

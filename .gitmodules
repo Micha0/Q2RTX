@@ -23,3 +23,6 @@
 [submodule "extern/openal-soft"]
 	path = extern/openal-soft
 	url = https://github.com/kcat/openal-soft.git
+[submodule "extern/bullet3"]
+	path = extern/bullet3
+	url = https://github.com/bulletphysics/bullet3.git

@@ -870,6 +870,12 @@ void SV_InitGameProgs(void)
     import.SetAreaPortalState = PF_SetAreaPortalState;
     import.AreasConnected = PF_AreasConnected;
 
+    import.BSP_RecurseLeafs = BSP_RecurseLeafs;
+    import.BSP_RecurseBrushes = BSP_RecurseBrushes;
+    import.BSP_RecurseBrushPlanes = BSP_RecurseBrushPlanes;
+
+    import.R_DrawLines = Com_DrawLines;
+
     ge = entry(&import);
     if (!ge) {
         Com_Error(ERR_DROP, "Game library returned NULL exports");

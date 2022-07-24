@@ -623,6 +623,31 @@ static void draw_alias_mesh(maliasmesh_t *mesh)
     GL_UnlockArrays();
 }
 
+
+static void draw_lines(float* points, size_t pointsSize, unsigned int* indices, size_t indicesSize, float* color)
+{
+    GL_BindTexture(0, TEXNUM_WHITE);
+    GL_StateBits(GLS_DEFAULT);
+    GL_ArrayBits(GLA_VERTEX);
+    GL_DepthRange(0, 0);
+
+    glStateBits_t state = GLS_DEFAULT;
+
+    GL_LoadMatrix(glr.viewmatrix);
+
+    GL_VertexPointer(3, 0, points);
+    GL_Color(color[0], color[1], color[2], color[3]);
+
+    GL_LockArrays(pointsSize);
+
+    qglDrawElements(GL_LINES, indicesSize, QGL_INDEX_ENUM, indices);
+
+    GL_UnlockArrays();
+    GL_DepthRange(0, 1);
+
+}
+
+
 void GL_DrawAliasModel(model_t *model)
 {
     entity_t *ent = glr.ent;
@@ -712,3 +737,7 @@ void GL_DrawAliasModel(model_t *model)
     }
 }
 
+void DrawLines_GL(float* points, size_t pointsSize, unsigned int* indices, size_t indicesSize, float* color)
+{
+    draw_lines(points, pointsSize, indices, indicesSize, color);
+}

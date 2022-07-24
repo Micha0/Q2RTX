@@ -193,7 +193,9 @@ typedef enum {
     MOVETYPE_FLY,
     MOVETYPE_TOSS,          // gravity
     MOVETYPE_FLYMISSILE,    // extra size to monsters
-    MOVETYPE_BOUNCE
+    MOVETYPE_BOUNCE,
+
+    MOVETYPE_BULLETPHYSICS
 } movetype_t;
 
 

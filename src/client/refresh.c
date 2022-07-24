@@ -445,6 +445,8 @@ int(*MOD_LoadMD3)(model_t *model, const void *rawdata, size_t length, const char
 int(*MOD_LoadIQM)(model_t* model, const void* rawdata, size_t length, const char* mod_name) = NULL;
 void(*MOD_Reference)(model_t *model) = NULL;
 
+void(*R_DrawLines)(float* points, size_t pointsSize, unsigned int* indices, size_t indicesSize, float* color) = NULL;
+
 float R_ClampScale(cvar_t *var)
 {
 	if (!var)

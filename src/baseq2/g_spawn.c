@@ -18,6 +18,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 */
 
 #include "g_local.h"
+#include "col.h"
 
 typedef struct {
     char    *name;
@@ -329,6 +330,22 @@ static const spawn_field_t temp_fields[] = {
     {NULL}
 };
 
+/*
+===============
+COL_CallSpawn
+
+Attach the spawned entity to any kind of collision body
+===============
+*/
+void COL_CallSpawn(edict_t *ent)
+{
+    if(ent->model && ent->model[0] == '*' && ent->s.modelindex > 1)
+    {
+        //map model entity, not world
+        // extern void COL_SpawnEntity(edict_t* ent);
+        COL_SpawnEntity(ent);
+    }
+}
 
 /*
 ===============
@@ -355,6 +372,7 @@ void ED_CallSpawn(edict_t *ent)
         if (!strcmp(item->classname, ent->classname)) {
             // found it
             SpawnItem(ent, item);
+            COL_CallSpawn(ent);
             return;
         }
     }
@@ -364,6 +382,7 @@ void ED_CallSpawn(edict_t *ent)
         if (!strcmp(s->name, ent->classname)) {
             // found it
             s->spawn(ent);
+            COL_CallSpawn(ent);
             return;
         }
     }

@@ -20,6 +20,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #define GAME_H
 
 #include "shared/list.h"
+#include "common/bsp_util.h"
 
 //
 // game.h -- game dll information visible to server
@@ -182,6 +183,14 @@ typedef struct {
     void (*AddCommandString)(const char *text);
 
     void (*DebugGraph)(float value, int color);
+
+    // BSP querying tools
+    void (*BSP_RecurseLeafs)(bsp_t* bsp, mnode_t* node, void* context, BSP_ReceiveLeafsFPtr callback);
+    void (*BSP_RecurseBrushes)(bsp_t* bsp, mmodel_t* root, int brushMask, void* context, BSP_ReceiveBrushLeafFPtr callback);
+    void (*BSP_RecurseBrushPlanes)(bsp_t* bsp, void* context, int brushMask /* = (CONTENTS_SOLID|CONTENTS_WINDOW)*/, BSP_ReceiveBrushPlaneFPtr callback);
+
+    //Debug drawing
+    void (*R_DrawLines)(float* points, size_t pointsSize, unsigned int* indices, size_t indicesSize, float* color);
 } game_import_t;
 
 //
@@ -225,6 +234,12 @@ typedef struct {
     // The game can issue gi.argc() / gi.argv() commands to get the rest
     // of the parameters
     void (*ServerCommand)(void);
+
+    // BSP Loading and Destroy events
+    void (*BSP_Loaded)(bsp_t*);
+    void (*BSP_Destroy)(bsp_t*);
+
+    void (*DebugDraw)();
 
     //
     // global variables shared between game and server

@@ -109,6 +109,9 @@ void        Com_FlushLogs(void);
 
 void        Com_AddConfigFile(const char *name, unsigned flags);
 
+void        Com_DrawLines(float* points, size_t pointsSize, unsigned int* indices, size_t indicesSize, float* color);
+void        Com_DebugDraw();
+
 #if USE_CLIENT
 #define COM_DEDICATED   (dedicated->integer != 0)
 #else

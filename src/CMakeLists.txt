@@ -2,6 +2,7 @@ cmake_minimum_required (VERSION 3.9)
 cmake_policy(SET CMP0069 NEW)
 
 SET(SRC_BASEQ2
+	baseq2/col.cpp
 	baseq2/g_ai.c
 	baseq2/g_chase.c
 	baseq2/g_cmds.c
@@ -53,6 +54,7 @@ SET(SRC_BASEQ2
 )
 
 SET(HEADERS_BASEQ2
+	baseq2/col.h
 	baseq2/g_local.h
 	baseq2/g_ptrs.h
 	baseq2/m_actor.h
@@ -155,6 +157,7 @@ SET(HEADERS_SERVER
 
 SET(SRC_COMMON
 	common/bsp.c
+	common/bsp_util.cpp
 	common/cmd.c
 	common/cmodel.c
 	common/common.c
@@ -382,6 +385,7 @@ ADD_DEFINITIONS(-DVERSION_SHA=${Q2RTX_VERSION_SHA})
 ADD_DEFINITIONS(-DVERSION_BRANCH=${Q2RTX_VERSION_BRANCH})
 
 ADD_DEFINITIONS(-DHAVE_CONFIG_H=1 -DCURL_STATICLIB -DAL_LIBTYPE_STATIC)
+ADD_COMPILE_OPTIONS("$<$<CONFIG:DEBUG>:-D_DEBUG>")
 
 IF(WIN32)
 	ADD_DEFINITIONS(-D_CRT_SECURE_NO_WARNINGS)
@@ -510,6 +514,12 @@ IF (WIN32)
 ENDIF()
 
 TARGET_INCLUDE_DIRECTORIES(baseq2 PRIVATE ../inc)
+TARGET_LINK_LIBRARIES(baseq2 BulletDynamics BulletCollision LinearMath Bullet3Geometry)
+TARGET_INCLUDE_DIRECTORIES(
+	baseq2 PRIVATE
+	${BULLET_PHYSICS_SOURCE_DIR}/src
+)
+SET_PROPERTY(TARGET baseq2 PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 IF(TARGET client)
     TARGET_INCLUDE_DIRECTORIES(client PRIVATE ../inc)

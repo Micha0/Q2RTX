@@ -557,6 +557,8 @@ void R_RenderFrame_GL(refdef_t *fd)
         GL_DrawAlphaFaces();
     }
 
+    Com_DebugDraw();
+
     // go back into 2D mode
     GL_Setup2D();
 
@@ -989,4 +991,6 @@ void R_RegisterFunctionsGL()
 	MOD_LoadMD3 = MOD_LoadMD3_GL;
     MOD_LoadIQM = NULL;
 	MOD_Reference = MOD_Reference_GL;
+
+    R_DrawLines = DrawLines_GL;
 }

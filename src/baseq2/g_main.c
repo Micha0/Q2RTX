@@ -17,6 +17,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 */
 
 #include "g_local.h"
+#include "col.h"
+#include "common/bsp_util.h"
 
 game_locals_t   game;
 level_locals_t  level;
@@ -234,6 +236,11 @@ q_exported game_export_t *GetGameAPI(game_import_t *import)
 
     globals.ServerCommand = ServerCommand;
 
+    globals.BSP_Loaded = COL_Init;
+    globals.BSP_Destroy = COL_Destroy;
+
+    globals.DebugDraw = COL_DebugDraw;
+
     globals.edict_size = sizeof(edict_t);
 
     return &globals;
@@ -246,9 +253,11 @@ void Com_LPrintf(print_type_t type, const char *fmt, ...)
     va_list     argptr;
     char        text[MAX_STRING_CHARS];
 
+#ifndef _DEBUG
     if (type == PRINT_DEVELOPER) {
         return;
     }
+#endif
 
     va_start(argptr, fmt);
     Q_vsnprintf(text, sizeof(text), fmt, argptr);
@@ -490,6 +499,8 @@ void G_RunFrame(void)
         ExitLevel();
         return;
     }
+
+    COL_Think();
 
     //
     // treat each object in turn

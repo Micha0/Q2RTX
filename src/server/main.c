@@ -2369,6 +2369,11 @@ void SV_Shutdown(const char *finalmsg, error_type_t type)
     SV_ShutdownGameProgs();
 
     // free current level
+    if(ge)
+    {
+        ge->BSP_Destroy(sv.cm.cache);
+    }
+
     CM_FreeMap(&sv.cm);
     SV_FreeFile(sv.entitystring);
     memset(&sv, 0, sizeof(sv));

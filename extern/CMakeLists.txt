@@ -106,3 +106,15 @@ if (IS_64_BIT)
     set_target_properties(common PROPERTIES FOLDER extern/openal-soft)
     set_target_properties(ex-common PROPERTIES FOLDER extern/openal-soft)
 endif()
+
+
+#
+# bullet3
+#
+
+option(BUILD_SHARED_LIBS "" OFF)
+option(BUILD_CPU_DEMOS "" OFF)
+option(USE_SOFT_BODY_MULTI_BODY_DYNAMICS_WORLD "" OFF)
+option(USE_GRAPHICAL_BENCHMARK "" OFF)
+option(ENABLE_VHACD "" OFF)
+add_subdirectory(bullet3)

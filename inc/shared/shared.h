@@ -248,6 +248,11 @@ typedef struct vrect_s {
          (d)[2]=(a)[2]+(b)*(c)[2], \
          (d)[3]=(a)[3]+(b)*(c)[3])
 
+#define MatrixMult(m, v, o) \
+    ((o)[0] = DotProduct((m)[0], (v)), \
+    (o)[1] = DotProduct((m)[1], (v)), \
+    (o)[2] = DotProduct((m)[2], (v)))
+
 #define QuatCopy(a,b)			((b)[0]=(a)[0],(b)[1]=(a)[1],(b)[2]=(a)[2],(b)[3]=(a)[3])
 
 void AngleVectors(vec3_t angles, vec3_t forward, vec3_t right, vec3_t up);
@@ -344,12 +349,14 @@ uint32_t Q_rand_uniform(uint32_t n);
 #define clamp(a,b,c)    ((a)<(b)?(a)=(b):(a)>(c)?(a)=(c):(a))
 #define cclamp(a,b,c)   ((b)>(c)?clamp(a,c,b):clamp(a,b,c))
 
+#ifndef __cplusplus
 #ifndef max
 #define max(a,b) ((a)>(b)?(a):(b))
 #endif
 
 #ifndef min
 #define min(a,b) ((a)<(b)?(a):(b))
+#endif
 #endif
 
 #define frand()     ((int32_t)Q_rand() * 0x1p-32f + 0.5f)

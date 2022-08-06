@@ -360,6 +360,11 @@ typedef struct {
     float       maxyaw;
     float       minpitch;
     float       maxpitch;
+
+    vec3_t      minaxis;
+    vec3_t      maxaxis;
+    vec3_t      minangle;
+    vec3_t      maxangle;
 } spawn_temp_t;
 
 

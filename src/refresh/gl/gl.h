@@ -579,3 +579,6 @@ int MOD_LoadMD3_GL(model_t *model, const void *rawdata, size_t length, const cha
 void MOD_Reference_GL(model_t *model);
 
 void DrawLines_GL(float* points, size_t pointsSize, unsigned int* indices, size_t indicesSize, float* color);
+void DrawLines_Color_GL(float* points, size_t pointsSize, unsigned int* indices, size_t indicesSize, int stride);
+void DrawTriangles_Color_GL(float* points, size_t pointsSize, unsigned int* indices, size_t indicesSize, int stride);
+

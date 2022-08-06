@@ -234,6 +234,7 @@ void SV_SpawnServer(mapcmd_t *cmd)
     // load and spawn all other entities
     ge->BSP_Loaded(sv.cm.cache);
     ge->SpawnEntities(sv.name, entitystring, cmd->spawnpoint);
+    ge->BSP_LoadComplete();
 
     // run two frames to allow everything to settle
     ge->RunFrame(); sv.framenum++;

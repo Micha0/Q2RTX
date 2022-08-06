@@ -191,6 +191,8 @@ typedef struct {
 
     //Debug drawing
     void (*R_DrawLines)(float* points, size_t pointsSize, unsigned int* indices, size_t indicesSize, float* color);
+    void (*R_DrawLines_Color)(float* points, size_t pointsSize, unsigned int* indices, size_t indicesSize, int stride);
+    void (*R_DrawTriangles_Color)(float* points, size_t pointsSize, unsigned int* indices, size_t indicesSize, int stride);
 } game_import_t;
 
 //
@@ -238,8 +240,12 @@ typedef struct {
     // BSP Loading and Destroy events
     void (*BSP_Loaded)(bsp_t*);
     void (*BSP_Destroy)(bsp_t*);
+    void (*BSP_LoadComplete)();
+    void (*BSP_GetPlaneCorners)(unsigned short planeId, int* outSize, float** outFloat);
 
     void (*DebugDraw)();
+
+    void (*DebugVisualizePlane)(unsigned short planeId);
 
     //
     // global variables shared between game and server

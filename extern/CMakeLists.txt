@@ -117,4 +117,17 @@ option(BUILD_CPU_DEMOS "" OFF)
 option(USE_SOFT_BODY_MULTI_BODY_DYNAMICS_WORLD "" OFF)
 option(USE_GRAPHICAL_BENCHMARK "" OFF)
 option(ENABLE_VHACD "" OFF)
+option(BUILD_UNIT_TESTS "" OFF)
 add_subdirectory(bullet3)
+
+
+#
+# Jolt Physics
+# 
+
+option(TARGET_UNIT_TESTS "Build Unit Tests" OFF)
+option(TARGET_HELLO_WORLD "Build Hello World" OFF)
+option(TARGET_PERFORMANCE_TEST "Build Performance Test" OFF)
+option(TARGET_SAMPLES "Build Samples" OFF)
+option(TARGET_VIEWER "Build JoltViewer" OFF)
+add_subdirectory(JoltPhysics/Build)

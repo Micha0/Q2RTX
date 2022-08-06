@@ -17,7 +17,9 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 */
 
 #include "shared/shared.h"
+#include "shared/game.h"
 #include "common/pmove.h"
+#include "common/common.h"
 
 #define STEPSIZE    18
 
@@ -67,6 +69,7 @@ returns the blocked flags (1 = floor, 2 = step / wall)
 */
 #define STOP_EPSILON    0.1f
 
+#if 1
 static void PM_ClipVelocity(vec3_t in, vec3_t normal, vec3_t out, float overbounce)
 {
     float   backoff;
@@ -256,6 +259,7 @@ static void PM_StepSlideMove(void)
     // if we were walking along a plane, then we need to copy the Z over
     pml.velocity[2] = down_v[2];
 }
+#endif
 
 /*
 ==================
@@ -1135,6 +1139,16 @@ void Pmove(pmove_t *pmove, pmoveParams_t *params)
     PM_CategorizePosition();
 
     PM_SnapPosition();
+
+#if 1
+    //Draw pmove info
+
+    if(pml.groundsurface)
+    {
+        extern game_export_t *ge;
+        ge->DebugVisualizePlane(pml.groundplane.id);
+    }
+#endif
 }
 
 void PmoveInit(pmoveParams_t *pmp)

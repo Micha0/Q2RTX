@@ -12,7 +12,7 @@ extern "C" {
 
 EXPORT typedef void (*BSP_ReceiveLeafsFPtr) (bsp_t* bsp, mleaf_t* leaf, void* context);
 EXPORT typedef void (*BSP_ReceiveBrushLeafFPtr) (bsp_t* bsp, mmodel_t* leaf, mbrush_t* brush, void* context);
-EXPORT typedef void (*BSP_ReceiveBrushPlaneFPtr) (bsp_t* bsp, mmodel_t* leaf, mbrush_t* brush, float plane_nx, float plane_ny, float plane_nz, float plane_d, void* context);
+EXPORT typedef void (*BSP_ReceiveBrushPlaneFPtr) (bsp_t* bsp, mmodel_t* leaf, mbrush_t* brush, cplane_t* plane, float plane_nx, float plane_ny, float plane_nz, float plane_d, void* context);
 
 // void (*G_Passthrough_BSP_Loaded)(bsp_t* bsp) = nullptr;
 // void (*G_Passthrough_BSP_Destroy)(bsp_t* bsp) = nullptr;
@@ -96,7 +96,7 @@ void BSP_RecurseBrushPlanes(bsp_t* bsp, void* context, int brushMask, BSP_Receiv
                     cplane_t* plane = brushside.plane;
 
                     planeContext.callback(
-                        bsp, leaf, brush,
+                        bsp, leaf, brush, plane,
                         plane->normal[0], plane->normal[1], plane->normal[2], -plane->dist,
                         planeContext.context
                     );
@@ -142,10 +142,10 @@ void BSP_RecurseBrushPlanes(bsp_t* bsp, void* context, int brushMask, BSP_Receiv
 						cplane_t* plane = brushside.plane;
 						btVector3 planeEq;
 						planeEq.setValue(
-							plane->normal[0],
-							plane->normal[1],
-							plane->normal[2]);
-						planeEq[3] = -plane->dist;
+							plane.normal[0],
+							plane.normal[1],
+							plane.normal[2]);
+						planeEq[3] = -plane.dist;
 
 						planeEquations.push_back(planeEq);
 						isValidBrush = true;

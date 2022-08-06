@@ -446,6 +446,8 @@ int(*MOD_LoadIQM)(model_t* model, const void* rawdata, size_t length, const char
 void(*MOD_Reference)(model_t *model) = NULL;
 
 void(*R_DrawLines)(float* points, size_t pointsSize, unsigned int* indices, size_t indicesSize, float* color) = NULL;
+void(*R_DrawLines_Color)(float* points, size_t pointsSize, unsigned int* indices, size_t indicesSize, int stride) = NULL;
+void(*R_DrawTriangles_Color)(float* points, size_t pointsSize, unsigned int* indices, size_t indicesSize, int stride) = NULL;
 
 float R_ClampScale(cvar_t *var)
 {

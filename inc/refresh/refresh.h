@@ -341,6 +341,8 @@ extern bool    (*R_InterceptKey)(unsigned key, bool down);
 extern bool    (*R_IsHDR)();
 
 extern void(*R_DrawLines)(float* points, size_t pointsSize, unsigned int* indices, size_t indicesSize, float* color);
+extern void(*R_DrawLines_Color)(float* points, size_t pointsSize, unsigned int* indices, size_t indicesSize, int stride);
+extern void(*R_DrawTriangles_Color)(float* points, size_t pointsSize, unsigned int* indices, size_t indicesSize, int stride);
 
 #if REF_GL
 void R_RegisterFunctionsGL();

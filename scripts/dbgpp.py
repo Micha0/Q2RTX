@@ -36,3 +36,35 @@ def lookup_type(val):
     return None
 
 gdb.pretty_printers.append(lookup_type)
+
+realCodeActive = False
+def event_handler(event):
+    import json
+    global realCodeActive
+    if  isinstance(event,gdb.Event): 
+        if type(event) == gdb.StopEvent:
+            print("realCodeActive: ", realCodeActive)
+            print(type(event))
+            print(("event __dict__", event.__dict__))
+            if realCodeActive:
+                gdb.execute("setxkbmap -option grab:break_actions")
+                gdb.execute("exec xdotool key XF86Ungrab")
+        elif type(event) == gdb.SignalEvent:
+            print(type(event))
+            print(("event __dict__", event.__dict__))
+            
+        elif type(event) == gdb.BreakpointEvent:
+            print(type(event))
+            print(("event __dict__", event.__dict__))
+            print(f"realCodeActive: ", realCodeActive)
+            realCodeActive = True
+            print(f"realCodeActive: ", realCodeActive)
+
+    if(event.inferior_thread):
+        gdb.execute("call ShutdownMouse()")
+
+    gdb.execute("set scheduler-locking off")
+
+    
+gdb.events.stop.connect(event_handler)
+gdb.write("GDB/SDL2: installed release mouse for SDL2\n")

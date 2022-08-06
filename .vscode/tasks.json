@@ -9,7 +9,7 @@
             "command": "python3",
             "args": [
                 "${workspaceFolder}/scripts/build_maps.py",
-                "-m", "mapdev/first.map", "-o", "baseq2/maps"
+                "-m", "mapdev/first.map", "-o", "baseq2/maps", "-q220"
             ]
         },
         {

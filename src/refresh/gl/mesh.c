@@ -640,12 +640,64 @@ static void draw_lines(float* points, size_t pointsSize, unsigned int* indices, 
 
     GL_LockArrays(pointsSize);
 
+    if(indices == NULL || indicesSize == 0)
+    {
+        qglDrawArrays(GL_LINE_LOOP, 0, pointsSize);
+    }
+    else
+    {
+        qglDrawElements(GL_LINES, indicesSize, QGL_INDEX_ENUM, indices);
+    }
+
+    GL_UnlockArrays();
+    GL_DepthRange(0, 1);
+}
+
+
+static void draw_lines_color(float* points, size_t pointsSize, unsigned int* indices, size_t indicesSize, int stride)
+{
+    GL_BindTexture(0, TEXNUM_WHITE);
+    GL_StateBits(GLS_DEFAULT);
+    GL_ArrayBits(GLA_VERTEX | GLA_COLOR);
+    GL_DepthRange(0, 0);
+
+    glStateBits_t state = GLS_DEFAULT;
+
+    GL_LoadMatrix(glr.viewmatrix);
+
+    GL_VertexPointer(3, stride, points);
+    GL_ColorFloatPointer(4, stride, points + 4);
+
+    GL_LockArrays(pointsSize);
+
     qglDrawElements(GL_LINES, indicesSize, QGL_INDEX_ENUM, indices);
 
     GL_UnlockArrays();
     GL_DepthRange(0, 1);
-
 }
+
+static void draw_triangles_color(float* points, size_t pointsSize, unsigned int* indices, size_t indicesSize, int stride)
+{
+    GL_BindTexture(0, TEXNUM_WHITE);
+    GL_StateBits(GLS_DEFAULT);
+    GL_ArrayBits(GLA_VERTEX | GLA_COLOR);
+    GL_DepthRange(0, 0);
+
+    glStateBits_t state = GLS_DEFAULT;
+
+    GL_LoadMatrix(glr.viewmatrix);
+
+    GL_VertexPointer(3, stride, points);
+    GL_ColorFloatPointer(4, stride, points + 4);
+
+    GL_LockArrays(pointsSize);
+
+    qglDrawElements(GL_TRIANGLES, indicesSize, QGL_INDEX_ENUM, indices);
+
+    GL_UnlockArrays();
+    GL_DepthRange(0, 1);
+}
+
 
 
 void GL_DrawAliasModel(model_t *model)
@@ -740,4 +792,14 @@ void GL_DrawAliasModel(model_t *model)
 void DrawLines_GL(float* points, size_t pointsSize, unsigned int* indices, size_t indicesSize, float* color)
 {
     draw_lines(points, pointsSize, indices, indicesSize, color);
+}
+
+void DrawLines_Color_GL(float* points, size_t pointsSize, unsigned int* indices, size_t indicesSize, int stride)
+{
+    draw_lines_color(points, pointsSize, indices, indicesSize, stride);
+}
+
+void DrawTriangles_Color_GL(float* points, size_t pointsSize, unsigned int* indices, size_t indicesSize, int stride)
+{
+    draw_triangles_color(points, pointsSize, indices, indicesSize, stride);
 }

@@ -728,7 +728,8 @@ typedef struct cplane_s {
     float   dist;
     byte    type;           // for fast side tests
     byte    signbits;       // signx + (signy<<1) + (signz<<1)
-    byte    pad[2];
+    // byte    pad[2];
+    unsigned short   id;
 } cplane_t;
 
 // 0-2 are axial planes

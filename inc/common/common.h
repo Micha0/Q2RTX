@@ -110,6 +110,8 @@ void        Com_FlushLogs(void);
 void        Com_AddConfigFile(const char *name, unsigned flags);
 
 void        Com_DrawLines(float* points, size_t pointsSize, unsigned int* indices, size_t indicesSize, float* color);
+void        Com_DrawLines_Color(float* points, size_t pointsSize, unsigned int* indices, size_t indicesSize, int stride);
+void        Com_DrawTriangles_Color(float* points, size_t pointsSize, unsigned int* indices, size_t indicesSize, int stride);
 void        Com_DebugDraw();
 
 #if USE_CLIENT

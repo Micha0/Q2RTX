@@ -268,6 +268,9 @@ static const spawn_func_t spawn_funcs[] = {
     {"turret_base", SP_turret_base},
     {"turret_driver", SP_turret_driver},
 
+    //Not sure how to make this dynamic
+    {"col_constraint", COL_SpawnConstraint},
+
     {NULL, NULL}
 };
 
@@ -327,6 +330,11 @@ static const spawn_field_t temp_fields[] = {
     {"maxpitch", STOFS(maxpitch), F_FLOAT},
     {"nextmap", STOFS(nextmap), F_LSTRING},
 
+    {"minaxis", STOFS(minaxis), F_VECTOR},
+    {"maxaxis", STOFS(maxaxis), F_VECTOR},
+    {"minangle", STOFS(minangle), F_VECTOR},
+    {"maxangle", STOFS(maxangle), F_VECTOR},
+
     {NULL}
 };
 
@@ -339,7 +347,7 @@ Attach the spawned entity to any kind of collision body
 */
 void COL_CallSpawn(edict_t *ent)
 {
-    if(ent->model && ent->model[0] == '*' && ent->s.modelindex > 1)
+    // if(ent->model && ent->model[0] == '*' && ent->s.modelindex > 1)
     {
         //map model entity, not world
         // extern void COL_SpawnEntity(edict_t* ent);

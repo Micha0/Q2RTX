@@ -1323,6 +1323,8 @@ void BSP_Free(bsp_t *bsp)
         Hunk_Free(&bsp->hunk);
         List_Remove(&bsp->entry);
         Z_Free(bsp);
+
+        //TODO: Reset rolling_cplane_index in math.c here
     }
 }
 

@@ -275,9 +275,12 @@ void ByteToDir(int index, vec3_t dir)
 }
 #endif
 
+static unsigned short rolling_cplane_index = 0;
+
 void SetPlaneType(cplane_t *plane)
 {
     vec_t *normal = plane->normal;
+    plane->id = rolling_cplane_index++;
 
     if (normal[0] == 1) {
         plane->type = PLANE_X;

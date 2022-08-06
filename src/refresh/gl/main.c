@@ -993,4 +993,6 @@ void R_RegisterFunctionsGL()
 	MOD_Reference = MOD_Reference_GL;
 
     R_DrawLines = DrawLines_GL;
+    R_DrawLines_Color = DrawLines_Color_GL;
+    R_DrawTriangles_Color = DrawTriangles_Color_GL;
 }

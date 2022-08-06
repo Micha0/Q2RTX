@@ -1180,13 +1180,42 @@ void Qcommon_Frame(void)
 void Com_DrawLines(float* points, size_t pointsSize, unsigned int* indices, size_t indicesSize, float* color)
 {
 #if USE_CLIENT
+    if(!R_DrawLines)
+        return;
     R_DrawLines(points, pointsSize, indices, indicesSize, color);
+#endif
+}
+
+void Com_DrawLines_Color(float* points, size_t pointsSize, unsigned int* indices, size_t indicesSize, int stride)
+{
+#if USE_CLIENT
+    if(!R_DrawLines_Color)
+        return;
+    R_DrawLines_Color(points, pointsSize, indices, indicesSize, stride);
+#endif
+}
+
+void Com_DrawTriangles_Color(float* points, size_t pointsSize, unsigned int* indices, size_t indicesSize, int stride)
+{
+#if USE_CLIENT
+    if(!R_DrawTriangles_Color)
+        return;
+    R_DrawTriangles_Color(points, pointsSize, indices, indicesSize, stride);
 #endif
 }
 
 void Com_DebugDraw()
 {
     extern    game_export_t    *ge;
-
+    if(!ge->DebugDraw)
+        return;
     ge->DebugDraw();
+}
+
+void Com_DebugVisualizePlane(unsigned short planeId)
+{
+    extern    game_export_t    *ge;
+    if(!ge->DebugVisualizePlane)
+        return;
+    ge->DebugVisualizePlane(planeId);
 }

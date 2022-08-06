@@ -875,6 +875,8 @@ void SV_InitGameProgs(void)
     import.BSP_RecurseBrushPlanes = BSP_RecurseBrushPlanes;
 
     import.R_DrawLines = Com_DrawLines;
+    import.R_DrawLines_Color = Com_DrawLines_Color;
+    import.R_DrawTriangles_Color = Com_DrawTriangles_Color;
 
     ge = entry(&import);
     if (!ge) {

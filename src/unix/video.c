@@ -687,7 +687,7 @@ static void WarpMouse(int x, int y)
     SDL_GetRelativeMouseState(NULL, NULL);
 }
 
-static void ShutdownMouse(void)
+void ShutdownMouse(void)
 {
     SDL_SetWindowGrab(sdl_window, SDL_FALSE);
     SDL_SetRelativeMouseMode(SDL_FALSE);

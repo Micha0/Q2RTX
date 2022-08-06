@@ -102,6 +102,9 @@
         "col.h": "c",
         "bsp.h": "c",
         "client.h": "c",
-        "keys.h": "c"
+        "keys.h": "c",
+        "bsp_util.h": "c",
+        "game.h": "c",
+        "pmove.h": "c"
     }
 }

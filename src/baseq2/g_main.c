@@ -238,8 +238,12 @@ q_exported game_export_t *GetGameAPI(game_import_t *import)
 
     globals.BSP_Loaded = COL_Init;
     globals.BSP_Destroy = COL_Destroy;
+    globals.BSP_LoadComplete = COL_LoadComplete;
+    globals.BSP_GetPlaneCorners = COL_GetPlaneCorners;
 
     globals.DebugDraw = COL_DebugDraw;
+
+    globals.DebugVisualizePlane = COL_DebugVisualizePlane;
 
     globals.edict_size = sizeof(edict_t);
 
